@@ -4,22 +4,24 @@ public:
     
     bool canPartition(string s, int target)
     {
-        if (s == "" && target == 0) return true;
+        if (s=="" && target == 0) return true;
         if (target < 0) return false;
         
         int n = s.size();
         bool ans = false;
         for (int i = 0; i < s.size(); i++){ //try all possible pivot points{
             
-            string left = s.substr(0, i + 1); //keep the left part
-            string right = s.substr(i + 1); //recurse for right  part
+            string left = s.substr(0, i + 1); //keep the left part //recurse for right  part
             int leftNum = stoi(left);
             
-            bool isPossible = canPartition(right, target - leftNum);
+            //now call recursion with remaingin susbtring and decresed sum
+            bool isPossible = canPartition(s.substr(i+1) ,target- leftNum);
+            
             if (isPossible) { 
                 ans = true; 
                 break; 
             }
+            //if  not true => backtracks and in next tur takes one more element in leftNum
         }
         
         return ans;
@@ -39,7 +41,6 @@ public:
             if (canPartition(to_string(sqr), num)) 
         
                 sum += sqr;
-            
             
         }
         return sum;
