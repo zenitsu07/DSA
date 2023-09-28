@@ -3,26 +3,38 @@ public:
     
     private:
     void rightShifting(vector<int> &nums) {
-        int last = nums[nums.size() - 1];
-        for(int i = nums.size() - 2; i >=0 ; i--) {
-            nums[i+1] = nums[i];
+        int n = nums.size();
+        int last = nums[n - 1];
+        int start = nums[0];
+        // for(int i = nums.size() - 2; i >=0 ; i--) {
+        //     nums[i+1] = nums[i];
+        // }
+        for(int i =0;i <n-1;i++){
+            nums[i] = nums[ (i+1)%n];
         }
-        nums[0] = last;
+        // nums[0] = last;
+        nums[n-1] = start;
     }
 public:
     long long minCost(vector<int>& nums, int x) {
+        
         int n = nums.size();
         vector<long long> cost(n, LONG_MAX);
         long long mini = LONG_MAX;
-        for(int i = 0; i < n; i++) {
+        
+        for(int i=0 ;  i<n;i++){
             rightShifting(nums);
-            long long totalCost = (long long)(x) * (long long)(i);
-            for(int j = 0; j < n; j++) {
-                cost[j] = min(cost[j],(long long)nums[j]);
-                totalCost+=cost[j];
+            long long totalCost = (long long)(x)*( (long long)(i) );
+            
+            for(int j = 0 ; j<n;j++){
+                
+                cost[j] = min(cost[j], (long long)(nums[j ]));
+                totalCost += cost[j];
+                    
             }
             mini = min(mini, totalCost);
         }
+        
         return mini;
         
     }
