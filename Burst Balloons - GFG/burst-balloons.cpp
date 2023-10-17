@@ -34,10 +34,31 @@ public:
         
         
         //2d dp array
-        vector<vector<int>>dp(arr.size(), vector<int>(arr.size(),-1));
-        
+        // vector<vector<int>>dp(n+1, vector<int>(n+1,-1));
+        //Memoise => initiliase with 0 
+        //since wr pushed two elements
+        vector<vector<int>>dp(n+2, vector<int>(n+2,0));
         //start from ind = 1 to n-2
-        return rec(arr, 1,n,dp);
+        //we go till j = n becasue we have pushed 1 from back and from front = we have size n+2 =? j = n is within bounds
+        
+        for(int i = n; i>=1; i--){
+            for(int j = 1; j<=n;j++ ){
+                 
+                 if(i>j) continue;//no range ecists
+                 
+                 int maxi = INT_MIN;
+                 for(int ind = i; ind<=j;ind++){
+                     int cost = arr[i-1]*arr[ind]*arr[j+1] + dp[i][ind-1]+dp[ind+1][j];
+                     
+                     maxi =  max(maxi, cost);
+                 }
+                 
+                 dp[i][j] = maxi;
+            }
+            
+        }
+        
+        return dp[1][n];
         
     }
     
