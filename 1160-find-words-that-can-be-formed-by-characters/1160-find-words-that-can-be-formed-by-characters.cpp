@@ -1,37 +1,46 @@
+// class Solution {
+// public:
+//     int countCharacters(vector<string>& words, string chars) {
+//         //good if it its a subsequence of chars string
+//         unordered_map<int,int>ump;
+//         int n = words.size();
+        
+//         for(int i =0 ; i<chars.size(); i++){
+            
+//             ump[chars[i]]++;
+            
+//         }
+//         int res =0 ;
+        
+//         //comaprng each char as countign
+//         return res;
+//     }
+    
+// };
+
 class Solution {
 public:
     int countCharacters(vector<string>& words, string chars) {
-        //good if it its a subsequence of chars string
-        unordered_map<int,int>ump;
-        int n = words.size();
-        
-        for(int i =0 ; i<chars.size(); i++){
-            
-            ump[chars[i]]++;
-            
+        int result = 0;
+        vector<int> charCount(26, 0);
+        for (char c : chars) {
+            charCount[c - 'a']++;
         }
-        int res =0 ;
-        
-        for(int i =0 ; i<n; i++){
-            
-            unordered_map<int,int>list;
-            for(int j = 0 ; j < words[i].size();j++){
-                
-                list[words[i][j]]++; //count every char freq in words[i] stirng then compare each
-                
+        for (const string& word : words) {
+            vector<int> tempCount(charCount);
+            bool valid = true;
+            for (char c : word) {
+                if (tempCount[c - 'a'] > 0) {
+                    tempCount[c - 'a']--;
+                } else {
+                    valid = false;
+                    break;
+                }
             }
-            
-            bool flag = true;
-            
-            for(int j = 0 ; j < words[i].size();j++){
-                
-                if(list[words[i][j]] > ump[words[i][j]])flag = false; //count every char freq in words[i] stirng then compare each
-                
+            if (valid) {
+                result += word.size();
             }
-            if(flag == true)res+=words[i].size();
-            
         }
-        
-        return res;
+        return result;
     }
 };
